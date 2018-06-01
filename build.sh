@@ -32,6 +32,7 @@ node src/index.js
 # bundle up!
 mkdir Jest.docset
 cp -r Contents Jest.docset
+cp -r dist/jest Jest.docSet/Contents/Resources/Documents/
 cp src/icon* Jest.docset
 
 # Create gzip bundle for Dash Contribution
