@@ -1,6 +1,7 @@
 # clean up previous remains, if any
 rm -rf Contents/Resources
 rm -rf Jest.docset
+rm -rf dist
 mkdir -p Contents/Resources/Documents
 
 # create a fresh sqlite db
@@ -18,6 +19,7 @@ rm -rf facebook.github.io
 cd ../../../
 
 # create data file from base index page
+mkdir dist
 node src/createSectionJSON.js
 
 # change the documentation markup layout a bit to fit dash's small window
