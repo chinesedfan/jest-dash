@@ -20,7 +20,7 @@ indexedFiles.forEach(function(array, index) {
         // Remove "Edit this Page" Button
         $('.edit-page-link').remove();
 
-        var name = $($(elem).contents().get(1)).text();
+        var name = $(elem).text();
 
         // TODO: Change "array.toc to somehting more relevant on a page-by-page basis in indexedFiles.js"
         $(elem).prepend('<a name="//apple_ref/cpp/' + array.toc + '/' + encodeURIComponent(name) + '" class="dashAnchor"></a>');
