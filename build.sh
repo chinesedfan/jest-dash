@@ -10,7 +10,7 @@ sqlite3 docSet.dsidx 'CREATE UNIQUE INDEX anchor ON searchIndex (name, type, pat
 
 # fetch the whole doc site
 cd Documents
-wget -m -p -E -k -np http://facebook.github.io/jest/
+wget -m -p -E -k -np -t 3 -T 10 https://facebook.github.io/jest/
 
 # move it around a bit
 mv facebook.github.io/jest ./
