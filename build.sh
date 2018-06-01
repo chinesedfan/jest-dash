@@ -23,6 +23,7 @@ mkdir dist
 node src/createSectionJSON.js
 
 # change the documentation markup layout a bit to fit dash's small window
+mkdir -p dist/jest/docs/en
 node src/modifyDocsHTML.js
 
 # read the previously fetched doc site and parse it into sqlite

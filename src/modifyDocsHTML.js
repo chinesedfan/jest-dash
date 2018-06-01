@@ -1,14 +1,16 @@
 var cheerio = require('cheerio');
 var fs = require('fs');
 var config = require('./config');
-var indexedFiles = require('./indexedFiles');
+var indexedFiles = require('../dist/indexedFiles');
 
 // remove the left column and the nav bar so that it fits dash's usually small
 // browser screen
 indexedFiles.forEach(function(array, index) {
-    //console.log(array);
-    var path = __dirname + '/../Contents/Resources/Documents/' + config.name + '/docs/' + array.name + '.html';
-    var src = fs.readFileSync(path, 'utf8');
+    var inputBaseDir = __dirname + '/../Contents/Resources/Documents/' + config.name;
+    var outputBaseDir = __dirname + '/../dist/' + config.name;
+    var commonPath = '/docs/en/' + array.name + '.html';
+
+    var src = fs.readFileSync(inputBaseDir + commonPath, 'utf8');
     var $ = cheerio.load(src);
 
     var headerClasses = config.pageSubHeaders.toString();
@@ -36,5 +38,7 @@ indexedFiles.forEach(function(array, index) {
     $('.docMainWrapper').attr('style', 'width:inherit;');
     $('.post').attr('style', 'float:none;margin:auto;');
 
-    fs.writeFileSync(path, $.html(), 'utf8');
+    fs.writeFileSync(outputBaseDir + commonPath, $.html(), 'utf8');
+    console.log(`Done ${commonPath}...`);
 });
+console.log('...modifyDocsHTML done!');
