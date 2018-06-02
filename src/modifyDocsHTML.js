@@ -3,6 +3,11 @@ var fs = require('fs');
 var config = require('./config');
 var indexedFiles = require('../dist/indexedFiles');
 
+function addDashAnchor(el, type) {
+    var name = el.text();
+    el.prepend('<a name="//apple_ref/cpp/' + type + '/' + encodeURIComponent(name) + '" class="dashAnchor"></a>');
+}
+
 // remove the left column and the nav bar so that it fits dash's usually small
 // browser screen
 indexedFiles.forEach(function(array, index) {
@@ -16,15 +21,24 @@ indexedFiles.forEach(function(array, index) {
     var headerClasses = config.pageSubHeaders.toString();
     var $headers = $(headerClasses);
 
-    $headers.each(function(index, elem) {
+    $(config.pageSubHeaders.toString()).each(function(index, elem) {
         // Remove "Edit this Page" Button
         $('.edit-page-link').remove();
 
-        var name = $(elem).text();
+        addDashAnchor($(elem), 'Section');
+    });
 
-        // TODO: Change "array.toc to somehting more relevant on a page-by-page basis in indexedFiles.js"
-        $(elem).prepend('<a name="//apple_ref/cpp/' + array.toc + '/' + encodeURIComponent(name) + '" class="dashAnchor"></a>');
-        $.html();
+    $(config.pageThirdHeaders.toString()).each(function(index, elem) {
+        var tocType = 'Section';
+        if (array.type === 'Resource') {
+            tocType = 'Method';
+
+            // Determine from dist/indexedFiles.js
+            if (['configuration', 'cli'].indexOf(array.name) >= 0) {
+                tocType = 'Option';
+            }
+        }
+        addDashAnchor($(elem), tocType);
     });
 
     // Remove Header
