@@ -31,10 +31,10 @@ indexedFiles.forEach(function(array, index) {
     var headerClasses = config.pageSubHeaders.toString();
     var $headers = $(headerClasses);
 
-    $(config.pageSubHeaders.toString()).each(function(index, elem) {
-        // Remove "Edit this Page" Button
-        $('.edit-page-link').remove();
+    // Remove "Edit this Page" Button
+    $('.edit-page-link').remove();
 
+    $(config.pageSubHeaders.toString()).each(function(index, elem) {
         addDashAnchor($(elem), 'Section');
     });
 
