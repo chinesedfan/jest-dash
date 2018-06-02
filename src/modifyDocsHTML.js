@@ -2,10 +2,20 @@ var cheerio = require('cheerio');
 var fs = require('fs');
 var config = require('./config');
 var indexedFiles = require('../dist/indexedFiles');
+var anchorList = [];
 
 function addDashAnchor(el, type) {
     var name = el.text();
     el.prepend('<a name="//apple_ref/cpp/' + type + '/' + encodeURIComponent(name) + '" class="dashAnchor"></a>');
+
+    if (type != 'Section') {
+        var anchorName = el.children('.hash-link').first().attr('href');
+        anchorList.push({
+            name,
+            type,
+            path: config.name + '/docs/en/' + anchorName
+        });
+    }
 }
 
 // remove the left column and the nav bar so that it fits dash's usually small
@@ -55,4 +65,7 @@ indexedFiles.forEach(function(array, index) {
     fs.writeFileSync(outputBaseDir + commonPath, $.html(), 'utf8');
     console.log(`Done ${commonPath}...`);
 });
+
+fs.writeFileSync(__dirname + '/../dist/anchorList.js', `module.exports=${JSON.stringify(anchorList, null, 4)};`, 'utf8');
+
 console.log('...modifyDocsHTML done!');

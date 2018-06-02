@@ -26,6 +26,7 @@ $section.each(function(i, elem){
         }
 
         page.name = path.basename($(this).attr('href'), '.html');
+        page.path = config.name + '/docs/en/' + page.name + '.html#_';
 
         if(config.ignorePage.pagesArray.indexOf(page.name) !== -1) {
             return;
