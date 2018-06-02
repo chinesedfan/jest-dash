@@ -51,16 +51,16 @@ indexedFiles.forEach(function(array, index) {
         addDashAnchor($(elem), tocType);
     });
 
-    // Remove Header
-    $('.fixedHeaderContainer').remove();
-    // Remove Side Navigation
-    $('.docsNavContainer').remove();
-    // Remove Footer
-    $('.nav-footer').remove();
-    // Clean up size of page
-    $('.sideNavVisible').attr('style', 'min-width:inherit;padding-top:0');
-    $('.docMainWrapper').attr('style', 'width:inherit;');
-    $('.post').attr('style', 'float:none;margin:auto;');
+    // // Remove Header
+    // $('.fixedHeaderContainer').remove();
+    // // Remove Side Navigation
+    // $('.docsNavContainer').remove();
+    // // Remove Footer
+    // $('.nav-footer').remove();
+    // // Clean up size of page
+    // $('.sideNavVisible').attr('style', 'min-width:inherit;padding-top:0');
+    // $('.docMainWrapper').attr('style', 'width:inherit;');
+    // $('.post').attr('style', 'float:none;margin:auto;');
 
     fs.writeFileSync(outputBaseDir + commonPath, $.html(), 'utf8');
     console.log(`Done ${commonPath}...`);
