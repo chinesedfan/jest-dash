@@ -25,10 +25,11 @@ $section.each(function(i, elem){
             return;
         }
 
-        page.name = path.basename($(this).attr('href'), '.html');
-        page.path = config.name + '/docs/en/' + page.name + '.html#_';
+        page.filename = path.basename($(this).attr('href'), '.html');
+        page.name = $(this).text();
+        page.path = config.name + '/docs/en/' + page.filename + '.html#_';
 
-        if(config.ignorePage.pagesArray.indexOf(page.name) !== -1) {
+        if(config.ignorePage.pagesArray.indexOf(page.filename) !== -1) {
             return;
         }
 

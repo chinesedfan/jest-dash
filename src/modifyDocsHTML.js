@@ -23,7 +23,7 @@ function addDashAnchor(el, type) {
 indexedFiles.forEach(function(array, index) {
     var inputBaseDir = __dirname + '/../Contents/Resources/Documents/' + config.name;
     var outputBaseDir = __dirname + '/../dist/' + config.name;
-    var commonPath = '/docs/en/' + array.name + '.html';
+    var commonPath = '/docs/en/' + array.filename + '.html';
 
     var src = fs.readFileSync(inputBaseDir + commonPath, 'utf8');
     var $ = cheerio.load(src);
@@ -44,7 +44,7 @@ indexedFiles.forEach(function(array, index) {
             tocType = 'Method';
 
             // Determine from dist/indexedFiles.js
-            if (['configuration', 'cli'].indexOf(array.name) >= 0) {
+            if (['configuration', 'cli'].indexOf(array.filename) >= 0) {
                 tocType = 'Option';
             }
         }
