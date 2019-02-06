@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.7.1
+version: v1.13.3
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -9,3 +9,12 @@ patch:
   'npm:qs:20170213':
     - sqlite3 > node-pre-gyp > request > qs:
         patched: '2017-06-05T01:23:04.085Z'
+  'npm:hoek:20180212':
+    - sqlite3 > node-pre-gyp > hawk > hoek:
+        patched: '2019-02-06T12:28:49.010Z'
+    - sqlite3 > node-pre-gyp > hawk > boom > hoek:
+        patched: '2019-02-06T12:28:49.010Z'
+    - sqlite3 > node-pre-gyp > hawk > sntp > hoek:
+        patched: '2019-02-06T12:28:49.010Z'
+    - sqlite3 > node-pre-gyp > hawk > cryptiles > boom > hoek:
+        patched: '2019-02-06T12:28:49.010Z'
