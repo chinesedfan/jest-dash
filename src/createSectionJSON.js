@@ -25,25 +25,30 @@ $section.each(function(i, elem){
             return;
         }
 
-        page.name = path.basename($(this).attr('href'), '.html');
+        page.filename = path.basename($(this).attr('href'), '.html');
+        page.name = $(this).text();
+        page.path = config.name + '/docs/en/' + page.filename + '.html#_';
 
-        if(config.ignorePage.pagesArray.indexOf(page.name) !== -1) {
+        if(config.ignorePage.pagesArray.indexOf(page.filename) !== -1) {
             return;
         }
 
         // set the Dash types based on the doc headers.
         switch (sectionHeader) {
-            case 'Core Concepts':
-                page.type = 'Library';
-                page.toc = 'Property';
+            case 'Introduction':
+                page.type = 'Instruction';
                 break;
-            case 'Reference':
+            case 'Guides':
+                page.type = 'Guide';
+                break;
+            case 'Framework Guides':
+                page.type = 'Framework';
+                break;
+            case 'API Reference':
                 page.type = 'Resource';
-                page.toc = 'Property';
                 break;
             default:
-                page.type = config.defaultPageType;
-                page.toc = config.defaultPageTOC;
+                page.type = 'File'
         };
         pageNamesArray.push(page);
         console.log(`Found page ${page.name}...`);
