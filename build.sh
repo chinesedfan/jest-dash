@@ -11,7 +11,9 @@ sqlite3 docSet.dsidx 'CREATE UNIQUE INDEX anchor ON searchIndex (name, type, pat
 
 # fetch the whole doc site
 cd Documents
-wget -m -p -E -k -np -t 3 -T 10 https://jestjs.io/
+wget -m -p -E -k -np -t 3 -T 10  \
+  --reject-regex '/es-ES|/ja|/pt-BR|/ro|/ru|/uk|/zh-Hans|versions' \
+  https://jestjs.io/
 
 # move it around a bit
 mv jestjs.io ./
