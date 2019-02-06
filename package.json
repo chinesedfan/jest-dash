@@ -9,7 +9,6 @@
   "main": "src/index.js",
   "dependencies": {
     "cheerio": "^0.20.0",
-    "lodash.flatten": "^3.0.2",
     "sequelize": "^4.17.2",
     "snyk": "^1.42.6",
     "sqlite3": "^4.0.0"

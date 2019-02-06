@@ -1,6 +1,7 @@
 # clean up previous remains, if any
 rm -rf Contents/Resources
 rm -rf Jest.docset
+rm -rf dist
 mkdir -p Contents/Resources/Documents
 
 # create a fresh sqlite db
@@ -10,7 +11,7 @@ sqlite3 docSet.dsidx 'CREATE UNIQUE INDEX anchor ON searchIndex (name, type, pat
 
 # fetch the whole doc site
 cd Documents
-wget -m -p -E -k -np http://facebook.github.io/jest/
+wget -m -p -E -k -np -t 3 -T 10 https://facebook.github.io/jest/
 
 # move it around a bit
 mv facebook.github.io/jest ./
@@ -18,9 +19,11 @@ rm -rf facebook.github.io
 cd ../../../
 
 # create data file from base index page
+mkdir dist
 node src/createSectionJSON.js
 
 # change the documentation markup layout a bit to fit dash's small window
+mkdir -p dist/jest/docs/en
 node src/modifyDocsHTML.js
 
 # read the previously fetched doc site and parse it into sqlite
@@ -29,6 +32,7 @@ node src/index.js
 # bundle up!
 mkdir Jest.docset
 cp -r Contents Jest.docset
+cp -r dist/jest Jest.docSet/Contents/Resources/Documents/
 cp src/icon* Jest.docset
 
 # Create gzip bundle for Dash Contribution
