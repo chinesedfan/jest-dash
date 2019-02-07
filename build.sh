@@ -16,8 +16,7 @@ wget -m -p -E -k -np -t 3 -T 10  \
   https://jestjs.io/
 
 # move it around a bit
-mv jestjs.io ./
-rm -rf jestjs.io
+mv jestjs.io jest
 cd ../../../
 
 # create data file from base index page
