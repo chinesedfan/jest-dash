@@ -31,8 +31,14 @@ indexedFiles.forEach(function(array, index) {
     var headerClasses = config.pageSubHeaders.toString();
     var $headers = $(headerClasses);
 
+    // Clean versions link
+    $('header a:nth-child(2)', '.headerWrapper').attr('href', 'javascript:void(0)');
+
     // Remove "Edit this Page" Button
     $('.edit-page-link').remove();
+
+    // Remove langs navi
+    $('span', '.nav-site').remove();
 
     $(config.pageSubHeaders.toString()).each(function(index, elem) {
         addDashAnchor($(elem), 'Section');
@@ -50,6 +56,9 @@ indexedFiles.forEach(function(array, index) {
         }
         addDashAnchor($(elem), tocType);
     });
+
+    // Remove page navi
+    $('.onPageNav').remove();
 
     // // Remove Header
     // $('.fixedHeaderContainer').remove();
