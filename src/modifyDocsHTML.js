@@ -1,6 +1,8 @@
 var cheerio = require('cheerio');
 var fs = require('fs');
 var config = require('./config');
+var inputBaseDir = __dirname + '/../Contents/Resources/Documents/' + config.name;
+var outputBaseDir = __dirname + '/../dist/' + config.name;
 var indexedFiles = require('../dist/indexedFiles');
 var anchorList = [];
 
@@ -18,16 +20,7 @@ function addDashAnchor(el, type) {
     }
 }
 
-// remove the left column and the nav bar so that it fits dash's usually small
-// browser screen
-indexedFiles.forEach(function(array, index) {
-    var inputBaseDir = __dirname + '/../Contents/Resources/Documents/' + config.name;
-    var outputBaseDir = __dirname + '/../dist/' + config.name;
-    var commonPath = '/docs/en/' + array.filename + '.html';
-
-    var src = fs.readFileSync(inputBaseDir + commonPath, 'utf8');
-    var $ = cheerio.load(src);
-
+function modifiyHtml($) {
     var headerClasses = config.pageSubHeaders.toString();
     var $headers = $(headerClasses);
 
@@ -39,6 +32,40 @@ indexedFiles.forEach(function(array, index) {
 
     // Remove langs navi
     $('span', '.nav-site').remove();
+
+    // Remove page navi
+    $('.onPageNav').remove();
+
+    // Remove Header
+    $('.fixedHeaderContainer').remove();
+    // // Remove Side Navigation
+    // $('.docsNavContainer').remove();
+    // // Remove Footer
+    // $('.nav-footer').remove();
+    // // Clean up size of page
+    // $('.sideNavVisible').attr('style', 'min-width:inherit;padding-top:0');
+    // $('.docMainWrapper').attr('style', 'width:inherit;');
+    // $('.post').attr('style', 'float:none;margin:auto;');
+}
+
+// similar changes for root files
+['index', 'help'].forEach(function(filename) {
+    var commonPath = '/' + filename + '.html';
+    var src = fs.readFileSync(inputBaseDir + commonPath, 'utf8');
+    var $ = cheerio.load(src);
+    modifiyHtml($);
+
+    fs.writeFileSync(outputBaseDir + commonPath, $.html(), 'utf8');
+    console.log(`Done ${commonPath}...`);
+});
+
+// remove the left column and the nav bar so that it fits dash's usually small
+// browser screen
+indexedFiles.forEach(function(array, index) {
+    var commonPath = '/docs/en/' + array.filename;
+
+    var src = fs.readFileSync(inputBaseDir + commonPath, 'utf8');
+    var $ = cheerio.load(src);
 
     $(config.pageSubHeaders.toString()).each(function(index, elem) {
         addDashAnchor($(elem), 'Section');
@@ -57,22 +84,21 @@ indexedFiles.forEach(function(array, index) {
         addDashAnchor($(elem), tocType);
     });
 
-    // Remove page navi
-    $('.onPageNav').remove();
-
-    // // Remove Header
-    // $('.fixedHeaderContainer').remove();
-    // // Remove Side Navigation
-    // $('.docsNavContainer').remove();
-    // // Remove Footer
-    // $('.nav-footer').remove();
-    // // Clean up size of page
-    // $('.sideNavVisible').attr('style', 'min-width:inherit;padding-top:0');
-    // $('.docMainWrapper').attr('style', 'width:inherit;');
-    // $('.post').attr('style', 'float:none;margin:auto;');
+    modifiyHtml($);
 
     fs.writeFileSync(outputBaseDir + commonPath, $.html(), 'utf8');
     console.log(`Done ${commonPath}...`);
+
+    // check .html
+    commonPath += '.html';
+    if (fs.existsSync(inputBaseDir + commonPath)) {
+        src = fs.readFileSync(inputBaseDir + commonPath, 'utf8');
+        $ = cheerio.load(src);
+        modifiyHtml($);
+
+        fs.writeFileSync(outputBaseDir + commonPath, $.html(), 'utf8');
+        console.log(`Done ${commonPath}...`);
+    }
 });
 
 fs.writeFileSync(__dirname + '/../dist/anchorList.js', `module.exports=${JSON.stringify(anchorList, null, 4)};`, 'utf8');
