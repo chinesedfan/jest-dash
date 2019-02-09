@@ -42,7 +42,9 @@ function modifiyHtml($) {
     // $('.docsNavContainer').remove();
     // // Remove Footer
     // $('.nav-footer').remove();
-    // // Clean up size of page
+    // Clean up size of page
+    $('.navPusher').attr('style', 'padding-top: 0;');
+    $('.docsNavContainer').attr('style', 'height:100vh;top: 0;');
     // $('.sideNavVisible').attr('style', 'min-width:inherit;padding-top:0');
     // $('.docMainWrapper').attr('style', 'width:inherit;');
     // $('.post').attr('style', 'float:none;margin:auto;');
