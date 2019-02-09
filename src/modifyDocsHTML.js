@@ -48,12 +48,33 @@ function modifiyHtml($) {
     // $('.post').attr('style', 'float:none;margin:auto;');
 }
 
+function fixLink($, basePath) {
+    // Fix links, see https://github.com/chinesedfan/jest-dash/issues/2
+    $('a').each(function(index, elem) {
+        var el = $(elem);
+        var link = el.attr('href');
+        if (link && link.indexOf('https://jestjs.io/docs/en/') === 0) {
+            link = link.replace(/^https:\/\/jestjs\.io\/docs\/en\/([^#]+)(#[^#]*)?$/, function(a, path, anchor) {
+                var newLink = basePath + path;
+                if (path.indexOf('.html') < 0) newLink += '.html';
+                if (anchor) newLink += anchor;
+                return newLink;
+            });
+            el.attr('href', link);
+        }
+    });
+}
+
 // similar changes for root files
-['index', 'help'].forEach(function(filename) {
+['en', 'index', 'help', 'en/help'].forEach(function(filename) {
     var commonPath = '/' + filename + '.html';
     var src = fs.readFileSync(inputBaseDir + commonPath, 'utf8');
     var $ = cheerio.load(src);
     modifiyHtml($);
+
+    var basePath = 'docs/en/';
+    if (filename.indexOf('/') >= 0) basePath = '../' + basePath; // FIXME: hard codes
+    fixLink($, basePath);
 
     fs.writeFileSync(outputBaseDir + commonPath, $.html(), 'utf8');
     console.log(`Done ${commonPath}...`);
@@ -62,7 +83,7 @@ function modifiyHtml($) {
 // remove the left column and the nav bar so that it fits dash's usually small
 // browser screen
 indexedFiles.forEach(function(array, index) {
-    var commonPath = '/docs/en/' + array.filename;
+    var commonPath = '/docs/en/' + array.filename + '.html';
 
     var src = fs.readFileSync(inputBaseDir + commonPath, 'utf8');
     var $ = cheerio.load(src);
@@ -85,20 +106,10 @@ indexedFiles.forEach(function(array, index) {
     });
 
     modifiyHtml($);
+    fixLink($, '');
 
     fs.writeFileSync(outputBaseDir + commonPath, $.html(), 'utf8');
     console.log(`Done ${commonPath}...`);
-
-    // check .html
-    commonPath += '.html';
-    if (fs.existsSync(inputBaseDir + commonPath)) {
-        src = fs.readFileSync(inputBaseDir + commonPath, 'utf8');
-        $ = cheerio.load(src);
-        modifiyHtml($);
-
-        fs.writeFileSync(outputBaseDir + commonPath, $.html(), 'utf8');
-        console.log(`Done ${commonPath}...`);
-    }
 });
 
 fs.writeFileSync(__dirname + '/../dist/anchorList.js', `module.exports=${JSON.stringify(anchorList, null, 4)};`, 'utf8');

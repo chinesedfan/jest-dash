@@ -12,7 +12,7 @@ sqlite3 docSet.dsidx 'CREATE UNIQUE INDEX anchor ON searchIndex (name, type, pat
 # fetch the whole doc site
 # https://www.gnu.org/software/wget/manual/wget.html
 cd Documents
-wget -m -p -k -np -t 3 -T 10  \
+wget -m -p -E -k -np -t 3 -T 10  \
   --reject-regex '/es-ES|/ja|/pt-BR|/ro|/ru|/uk|/zh-Hans|versions|/blog' \
   https://jestjs.io/
 
@@ -25,6 +25,7 @@ mkdir dist
 node src/createSectionJSON.js
 
 # change the documentation markup layout a bit to fit dash's small window
+mkdir -p dist/jest/en
 mkdir -p dist/jest/docs/en
 node src/modifyDocsHTML.js
 
