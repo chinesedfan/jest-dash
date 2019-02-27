@@ -35,16 +35,17 @@ function modifiyHtml($) {
 
     // Remove page navi
     $('.onPageNav').remove();
+    $('#tocToggler').remove();
 
     // Remove Header
-    $('.fixedHeaderContainer').remove();
+    $('.fixedHeaderContainer').attr('style', 'display: none;');
     // // Remove Side Navigation
     // $('.docsNavContainer').remove();
     // // Remove Footer
     // $('.nav-footer').remove();
     // Clean up size of page
     $('.navPusher').attr('style', 'padding-top: 0;');
-    $('.docsNavContainer').attr('style', 'height:100vh;top: 0;');
+    $('head').append(`<style type="text/css">@media only screen and (min-width: 1024px) { .docsNavContainer {height:100vh;top: 0;} }</style>`);
     // $('.sideNavVisible').attr('style', 'min-width:inherit;padding-top:0');
     // $('.docMainWrapper').attr('style', 'width:inherit;');
     // $('.post').attr('style', 'float:none;margin:auto;');
