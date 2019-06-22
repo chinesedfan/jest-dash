@@ -9,7 +9,7 @@
   "main": "src/index.js",
   "dependencies": {
     "cheerio": "^0.20.0",
-    "sequelize": "^4.17.2",
+    "sequelize": "^5.8.11",
     "snyk": "^1.76.0",
     "sqlite3": "^4.0.0"
   },
